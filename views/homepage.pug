@@ -18,6 +18,9 @@ html
                 for survey in surveys
                     div
                         h1 #{survey.question}
+                        for possibleAnswer in survey.possibleanswers
+                            p #{possibleAnswer.answer}
+
                         if user
                            a(href='/api/survey/' + survey.id) Répondre au formulaire
 

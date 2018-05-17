@@ -29,7 +29,7 @@ const PossibleAnswer = db.define('possibleanswer', {
 });
 
 const UserAnswer = db.define('useranswer', {
-    title: { type: Sequelize.STRING }
+    possibleanswer: { type: Sequelize.STRING }
 });
 
 Survey.hasMany(UserAnswer);
@@ -171,12 +171,12 @@ app.post('/api/createSurvey/question', (req, res) => {
 //!!!!!!!!!!!!!!!!!!!!!Réponse!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 app.get('/api/createSurvey/:surveyId/answer', (req, res) => {
     // Render the create answer page
-    res.render('createanswersurvey');
+    res.render('createanswersurvey', { surveyId: req.params.surveyId});
 });
 
 app.post('/api/createSurvey/:surveyId/answer', (req, res) => {
     const answer = req.body.answer;
-    const surveyId = req.params.survey;
+    const surveyId = req.params.surveyId;
     PossibleAnswer
         .create({ answer: answer, surveyId: surveyId })
         .then(() => {
