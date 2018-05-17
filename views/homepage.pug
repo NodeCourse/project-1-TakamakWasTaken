@@ -1,0 +1,25 @@
+html
+    head
+        link(rel="stylesheet", href="/css/styles.css")
+    main
+        if user
+            h1 Welcome #{user.firstname} #{user.lastname}!
+        else
+            h1 Connectez-vous ou créez un compte:
+            div.alignement
+                a(href="/api/login") Log in
+                a(href="/api/signup") Sign up
+
+        if(surveys.length === 0)
+            p Aucun sondage!
+        else
+            h2 ***** Sondages *****
+            div.verticalFlow
+                for survey in surveys
+                    div
+                        h1 #{survey.question}
+                        if user
+                           a(href='/api/survey/' + survey.id) Répondre au formulaire
+
+
+        a(href="/api/createSurvey/question") Ajouter un sondage
