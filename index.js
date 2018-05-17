@@ -67,7 +67,8 @@ passport.use(new LocalStrategy((email, password, cb) => {
     // Find a user with the provided username (which is an email address in our case)
     User
         .findOne({ where: {
-            email, password
+            email,
+            password
             }
         })
         .then((user) => {
@@ -136,12 +137,6 @@ app.post('/api/signup', (req, res) => {
 
 //--------------------------------------------------
 
-app.get('/', (req, res) => {
-    Survey
-        .findAll({ include: [PossibleAnswer] })
-        .then(surveys => res.render('homepage', { surveys, user: req.user }));
-
-});
 //??????????????????????????Question????????????????????????????????
 app.get('/api/createSurvey/question', (req, res) => {
     // Render the create question page
@@ -186,6 +181,7 @@ app.post('/api/createSurvey/:surveyId/answer', (req, res) => {
             res.render('500', {error: error})
         });
 });
+//::::::::::::::::::::::::::::::
 
 app.get('/api/login', (req, res) => {
     // Render the login page
@@ -202,8 +198,64 @@ app.post('/api/login',
     })
 );
 
-app.get('/api/survey/:surveyID', (req, res) => {
-    res.render('answersurvey');
+app.get('/api/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+});
+
+app.get('/api/survey/:surveyId', (req, res) => {
+    if(req.user){
+        Survey
+            .findOne({
+                where: { id: req.params.surveyId },
+                include:  [PossibleAnswer]
+            })
+            .then((survey) => {
+                res.render('surveyanswer', { survey: survey });
+            });
+    }
+    else{
+        res.redirect('/api/login');
+    }
+});
+
+app.post('/api/surveyanswer/submit/:surveyId', (req, res) => {
+
+    const surveyId = req.params.surveyId;
+
+    PossibleAnswer
+        .findAll({
+            where: { surveyId: surveyId }
+        })
+        .then((possibleanswers) => {
+
+            const answersTable = req.body.surveyanswer;
+            for(let i = 0; i<answersTable.length; i++){
+                if(answersTable[i].isChecked()){
+                    const currentAnswer = answersTable[i].value;
+                }
+
+            }
+
+
+        })
+
+    const chosenAnswer = req.body.surveyanswer;
+    UserAnswer
+        .create({ answer: chosenAnswer, surveyId: surveyId })
+        .then(() => {
+            res.redirect('/api/createSurvey/' + surveyId + '/answer');
+        })
+        .catch((error) =>{
+            res.render('500', {error: error})
+        });
+});
+
+app.get('/', (req, res) => {
+    Survey
+        .findAll({ include: [PossibleAnswer] })
+        .then(surveys => res.render('homepage', { surveys, user: req.user }));
+
 });
 
 db

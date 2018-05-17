@@ -1,28 +1,32 @@
 html
     head
         link(rel="stylesheet", href="/css/styles.css")
-    main
+    main.container
         if user
             h1 Welcome #{user.firstname} #{user.lastname}!
+            a(href="/api/logout") Déconnexion
         else
-            h1 Connectez-vous ou créez un compte:
+            h1 Connectez-vous ou créez un compte pour participer aux sondages!
             div.alignement
-                a(href="/api/login") Log in
-                a(href="/api/signup") Sign up
+                a(href="/api/login") Connexion
+                a(href="/api/signup") Inscription
 
         if(surveys.length === 0)
             p Aucun sondage!
+            a(href="/api/createSurvey/question") Soyez le premier à créer un sondage!
         else
-            h2 ***** Sondages *****
-            div.verticalFlow
+            h2 ***** Liste des sondages *****
+            a(href="/api/createSurvey/question") Nouveau
+            div
                 for survey in surveys
                     div
-                        h1 #{survey.question}
-                        for possibleAnswer in survey.possibleanswers
-                            p #{possibleAnswer.answer}
+                        p ________________________________________
+                        h3 #{survey.question}
+                        p -----------
+                        ul.answerList
+                            for possibleAnswer in survey.possibleanswers
+                               li #{possibleAnswer.answer}
 
-                        if user
-                           a(href='/api/survey/' + survey.id) Répondre au formulaire
+                        a(href='/api/survey/' + survey.id) Répondre
 
 
-        a(href="/api/createSurvey/question") Ajouter un sondage

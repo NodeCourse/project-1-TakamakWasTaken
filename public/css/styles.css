@@ -11,3 +11,17 @@ form.verticalFlow input{
     margin-bottom:10px;
 }
 
+.alignement a{
+    margin:0 10px;
+}
+
+.container{
+    max-width:50%;
+    margin:auto;
+}
+
+.answerList{
+    width:fit-content;
+    margin: 16px auto;
+    padding:0;
+}

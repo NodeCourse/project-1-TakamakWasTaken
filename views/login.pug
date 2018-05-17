@@ -3,7 +3,9 @@ html
         link(rel="stylesheet", href="/css/styles.css")
     main
         if error
-        h1 #{error}
+            h1 #{error}
+        else
+            h1 Connectez-vous:
 
         form.verticalFlow(method="post")
             input(type="email", name="username", placeholder="email")
