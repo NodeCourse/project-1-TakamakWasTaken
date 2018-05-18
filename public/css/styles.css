@@ -1,0 +1,36 @@
+main, body{
+    text-align: center;
+}
+
+
+.verticalFlow{
+    display: inline-grid;
+}
+
+form.verticalFlow input{
+    margin-bottom:10px;
+}
+
+.horizontalFlow{
+    display: flex;
+}
+
+.alignement a{
+    margin:0 10px;
+}
+
+.container{
+    max-width:50%;
+    margin:auto;
+}
+
+.answerList{
+    width:fit-content;
+    margin: 16px auto;
+    padding:0;
+}
+
+.percentage{
+    margin-left: auto;
+    transform: translateX(100%);
+}

@@ -1,0 +1,17 @@
+html
+    head
+        link(rel="stylesheet", href="/css/styles.css")
+    main.verticalFlow
+        if user
+            h1 Hello #{user.firstname} #{user.lastname}
+        else
+            h1 Inscrivez-vous:
+
+            form(method="POST").verticalFlow
+                input(type="text", name="firstname", placeholder="Prénom")
+                input(type="text", name="lastname", placeholder="Nom")
+                input(type="text", name="email", placeholder="Email")
+                input(type="password", name="password", placeholder="Mot de passe")
+                button(type="submit") Envoyer
+
+            a(href='/') Accueil

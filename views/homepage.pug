@@ -1,0 +1,31 @@
+html
+    head
+        link(rel="stylesheet", href="/css/styles.css")
+    main.container
+        if user
+            h1 Welcome #{user.firstname} #{user.lastname}!
+            a(href="/api/logout") Déconnexion
+            if(surveys.length < 1)
+                p Aucun sondage!
+                a(href="/api/createSurvey/question") Soyez le premier à créer un sondage!
+            else
+                h2 ***** Liste des sondages *****
+                a(href="/api/createSurvey/question") Nouveau
+                div
+                    for survey in surveys
+                        div
+                            p ________________________________________
+                            h3 #{survey.question}
+                            p -----------
+                            ul.answerList
+                                for possibleanswer in survey.possibleanswers
+                                    li #{possibleanswer.answer}
+
+                            a(href='/api/survey/' + survey.id) Répondre
+
+        else
+            h1 Connectez-vous ou créez un compte pour participer aux sondages!
+            div.alignement
+                a(href="/api/login") Connexion
+                a(href="/api/signup") Inscription
+

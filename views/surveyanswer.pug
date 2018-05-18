@@ -1,0 +1,17 @@
+html
+    head
+        link(rel="stylesheet", href="/css/styles.css")
+    main.container
+        h1 #{survey.question}
+        form.verticalFlow(method="POST", action="/api/surveyanswer/submit/" + survey.id + "/")
+            for possibleanswer in survey.possibleanswers
+                div.horizontalFlow
+                    label
+                        input(type="radio", name="surveyanswer" value=possibleanswer.id)
+                        span #{possibleanswer.answer}
+                    span.percentage #{possibleanswer.getDataValue("percentage")} %
+            if(isAnswered)
+                h1 Vous avez déjà répondu!
+                a(href="/") Accueil
+            else
+                button(type="submit") Envoyer la réponse

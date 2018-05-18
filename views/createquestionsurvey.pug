@@ -1,0 +1,7 @@
+html
+    head
+        link(rel="stylesheet", href="/css/styles.css")
+    main
+        form.verticalFlow(method="post", action ="/api/createSurvey/question")
+            input(type="text", name="question", placeholder="Question")
+            button(type="submit") Envoyer
