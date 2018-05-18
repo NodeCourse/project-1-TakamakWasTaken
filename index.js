@@ -248,11 +248,11 @@ app.get('/api/logout', function(req, res){
 
 app.get('/api/survey/:surveyId', (req, res) => {
     if(req.user){
-
+        let isAnswered;
         UserAnswer
             .findOne({where: {userId: req.user.id, surveyId: req.params.surveyId}})
             .then((useranswer) => {
-                let isAnswered;
+
                 if (!useranswer) {
                     isAnswered = false;
                 }

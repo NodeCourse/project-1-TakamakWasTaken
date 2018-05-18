@@ -4,12 +4,6 @@
     <list default="true" id="e689905a-f417-46f0-916d-921bf62740d7" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.js" afterPath="$PROJECT_DIR$/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/styles.css" afterPath="$PROJECT_DIR$/public/css/styles.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/createanswersurvey.pug" afterPath="$PROJECT_DIR$/views/createanswersurvey.pug" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/homepage.pug" afterPath="$PROJECT_DIR$/views/homepage.pug" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/login.pug" afterPath="$PROJECT_DIR$/views/login.pug" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/signup.pug" afterPath="$PROJECT_DIR$/views/signup.pug" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/surveyanswer.pug" afterPath="$PROJECT_DIR$/views/surveyanswer.pug" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -38,8 +32,8 @@
           <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="221">
-                  <caret line="296" column="18" lean-forward="false" selection-start-line="296" selection-start-column="10" selection-end-line="296" selection-end-column="18" />
+                <state relative-caret-position="441">
+                  <caret line="289" column="9" lean-forward="true" selection-start-line="289" selection-start-column="9" selection-end-line="289" selection-end-column="9" />
                   <folding />
                 </state>
               </provider>
@@ -299,12 +293,12 @@
       <updated>1526544380980</updated>
       <workItem from="1526544382458" duration="22009000" />
       <workItem from="1526625489490" duration="3291000" />
-      <workItem from="1526628797908" duration="10511000" />
+      <workItem from="1526628797908" duration="10678000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35811000" />
+    <option name="totallyTimeSpent" value="35978000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -585,8 +579,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="296" column="18" lean-forward="false" selection-start-line="296" selection-start-column="10" selection-end-line="296" selection-end-column="18" />
+        <state relative-caret-position="441">
+          <caret line="289" column="9" lean-forward="true" selection-start-line="289" selection-start-column="9" selection-end-line="289" selection-end-column="9" />
           <folding />
         </state>
       </provider>
