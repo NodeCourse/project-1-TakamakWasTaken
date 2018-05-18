@@ -1,4 +1,4 @@
-main{
+main, body{
     text-align: center;
 }
 
@@ -9,6 +9,10 @@ main{
 
 form.verticalFlow input{
     margin-bottom:10px;
+}
+
+.horizontalFlow{
+    display: flex;
 }
 
 .alignement a{
@@ -24,4 +28,9 @@ form.verticalFlow input{
     width:fit-content;
     margin: 16px auto;
     padding:0;
+}
+
+.percentage{
+    margin-left: auto;
+    transform: translateX(100%);
 }

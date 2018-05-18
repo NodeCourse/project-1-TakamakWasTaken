@@ -29,8 +29,8 @@ const PossibleAnswer = db.define('possibleanswer', {
 });
 
 const UserAnswer = db.define('useranswer', {
-    possibleanswer: { type: Sequelize.STRING }
-});
+        answer: { type: Sequelize.STRING }
+    });
 
 Survey.hasMany(UserAnswer);
 UserAnswer.belongsTo(Survey);
@@ -43,6 +43,49 @@ PossibleAnswer.belongsTo(Survey);
 
 User.hasMany(Survey);
 Survey.belongsTo(User);
+
+function isAnswered(userId) {
+    UserAnswer
+        .findOne({where: {userId: userId}})
+        .then((useranswer) => {
+            if(!useranswer){
+                return false;
+            }
+            else{
+                return true;
+            }
+    })
+}
+
+function getPercentage(currentVote){
+    let percentage;
+    let totalSurveyAnswers;
+    let totalCurrentVote;
+
+    return UserAnswer
+        .findAll({where: { answer: currentVote.id}})
+        .then((useranswers) => {
+            totalCurrentVote = useranswers.length;
+        })
+        .then(() => {
+            return UserAnswer
+                .findAll({where: { surveyId: currentVote.surveyId }})
+                .then((useranswers) => {
+                totalSurveyAnswers = useranswers.length;
+                if(totalSurveyAnswers > 0 && totalCurrentVote >= 0){
+                    percentage = (totalCurrentVote * 100)/totalSurveyAnswers;
+                }
+                else{
+                    percentage = 0;
+                }
+                console.log(percentage);
+                console.log(totalSurveyAnswers);
+                console.log(totalCurrentVote);
+                    console.log("----------------------------------");
+                return percentage;
+            })
+        });
+}
 
 const app = express();
 
@@ -105,7 +148,7 @@ passport.deserializeUser((username, cb) => {
 
 app.get('/api/signup', (req, res) => {
     res.render('signup');
-})
+});
 
 app.post('/api/signup', (req, res) => {
     const firstname = req.body.firstname;
@@ -113,7 +156,7 @@ app.post('/api/signup', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    if(firstname != null && lastname != null && email != null && password != null){
+    if(firstname !== null && lastname !== null && email !== null && password !== null){
         User
             .create({
                 firstname: firstname,
@@ -205,46 +248,58 @@ app.get('/api/logout', function(req, res){
 
 app.get('/api/survey/:surveyId', (req, res) => {
     if(req.user){
+
+        UserAnswer
+            .findOne({where: {userId: req.user.id, surveyId: req.params.surveyId}})
+            .then((useranswer) => {
+                let isAnswered;
+                if (!useranswer) {
+                    isAnswered = false;
+                }
+                else {
+                    isAnswered = true;
+                }
+            });
         Survey
             .findOne({
-                where: { id: req.params.surveyId },
-                include:  [PossibleAnswer]
+            where: { id: req.params.surveyId },
+            include:  [PossibleAnswer]
+            })
+            .then((survey) =>{
+                return Promise
+                    .all(survey.possibleanswers.map((answer) => {
+                        return getPercentage(answer)
+                            .then((percentage) =>{
+                                answer.setDataValue("percentage", percentage);
+                                return answer;
+                            })
+                    }))
+                    .then((answers) =>{
+                        console.log(answers);
+                        survey.setDataValue("possibleanswers", answers);
+                        return survey;
+                    })
             })
             .then((survey) => {
-                res.render('surveyanswer', { survey: survey });
+                res.render('surveyanswer', { survey: survey, isAnswered });
             });
+
+
+
     }
     else{
         res.redirect('/api/login');
     }
 });
 
-app.post('/api/surveyanswer/submit/:surveyId', (req, res) => {
+app.post('/api/surveyanswer/submit/:surveyId/', (req, res) => {
 
     const surveyId = req.params.surveyId;
-
-    PossibleAnswer
-        .findAll({
-            where: { surveyId: surveyId }
-        })
-        .then((possibleanswers) => {
-
-            const answersTable = req.body.surveyanswer;
-            for(let i = 0; i<answersTable.length; i++){
-                if(answersTable[i].isChecked()){
-                    const currentAnswer = answersTable[i].value;
-                }
-
-            }
-
-
-        })
-
-    const chosenAnswer = req.body.surveyanswer;
+    const userAnswer = req.body.surveyanswer;
     UserAnswer
-        .create({ answer: chosenAnswer, surveyId: surveyId })
+        .create({ answer: userAnswer, surveyId: surveyId, userId: req.user.id })
         .then(() => {
-            res.redirect('/api/createSurvey/' + surveyId + '/answer');
+            res.redirect('/');
         })
         .catch((error) =>{
             res.render('500', {error: error})
@@ -255,7 +310,6 @@ app.get('/', (req, res) => {
     Survey
         .findAll({ include: [PossibleAnswer] })
         .then(surveys => res.render('homepage', { surveys, user: req.user }));
-
 });
 
 db
